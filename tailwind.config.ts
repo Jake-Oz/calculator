@@ -7,14 +7,23 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+    colors: {
+      mainbackground: "var(--color-main-background)",
+      togglebackground: "var(--color-toggle-background)",
+      keypadbackground: "var(--color-keypad-background)",
+      screenbackground: "var(--color-screen-background)",
+      keybackground: "var(--color-key-background)",
+      keyshadow: "var(--color-key-shadow)",
+      toggle: "var(--color-toggle)",
+      toggleshadow: "var(--color-toggle-shadow)",
+      keylight: "var(--color-key-light)",
+      keylightshadow: "var(--color-key-light-shadow)",
+      text: "var(--color-text)",
+      textwhite: "var(--color-text-white)",
+      textyellow: "var(--color-text-yellow)",
     },
   },
   plugins: [],
 };
+
 export default config;
