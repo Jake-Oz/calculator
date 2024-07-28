@@ -15,7 +15,7 @@ const Header = ({ theme, switchTheme }: HeaderProps) => {
           : theme === "theme2"
           ? "text-text"
           : "text-textyellow"
-      } mb-10`}
+      } mb-4`}
     >
       <h3 className="text-4xl">calc</h3>
       <div className="flex justify-center items-end gap-[15%] ">
@@ -26,7 +26,7 @@ const Header = ({ theme, switchTheme }: HeaderProps) => {
             <p>2</p>
             <p>3</p>
           </div>
-          <Toggle switchTheme={switchTheme} />
+          <Toggle theme={theme} switchTheme={switchTheme} />
         </div>
       </div>
     </div>

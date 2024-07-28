@@ -3,7 +3,11 @@
 import Display from "@/components/display";
 import NumberButton from "@/components/numeric-buttton";
 import { useState, useEffect } from "react";
-import { changeTheme } from "./utils";
+import {
+  getThemePreferenceFromCookie,
+  changeTheme,
+  convertToNonLocaleString,
+} from "./utils";
 import Header from "@/components/header";
 
 export default function Home() {
@@ -12,9 +16,24 @@ export default function Home() {
   const [decimalSelected, setDecimalSelected] = useState(false);
   const [operandSelected, setOperandSelected] = useState(false);
   const [deleteAvailable, setDeleteAvailable] = useState(false);
-  const [theme, setTheme] = useState("theme1");
+  const [theme, setTheme] = useState("");
 
-  useEffect(() => changeTheme(theme), [theme]);
+  useEffect(() => {
+    if (!theme) return;
+    setTheme(theme);
+    changeTheme(theme);
+    document.querySelector("html")?.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    getThemePreferenceFromCookie().then((theme) => {
+      if (theme) {
+        setTheme(theme);
+      } else {
+        setTheme("theme1");
+      }
+    });
+  }, []);
 
   const handleClick = (value?: string) => {
     if (value === "x") value = "*";
@@ -23,7 +42,7 @@ export default function Home() {
       setDecimalSelected(true);
     }
     if (value && !isNaN(Number(value)) && input === "0" && value !== ".") {
-      setInput(value.toLocaleString());
+      setInput(value);
       setExpression(value);
       setDeleteAvailable(true);
       return;
@@ -41,11 +60,18 @@ export default function Home() {
       }
     } else {
       setDeleteAvailable(true);
-      if (!operandSelected) {
-        setInput((input + value).toLocaleString());
-        setExpression(expression + value);
-      } else if (value && !isNaN(Number(value))) {
-        setInput(value.toLocaleString());
+      if (!operandSelected && value) {
+        if (value !== ".") {
+          setInput(
+            Number(convertToNonLocaleString(input) + value).toLocaleString()
+          );
+          setExpression(expression + value);
+        } else {
+          setInput(convertToNonLocaleString(input) + value);
+          setExpression(expression + value);
+        }
+      } else if (value) {
+        setInput(convertToNonLocaleString(value));
         setExpression(expression + value);
         setOperandSelected(false);
       }
@@ -131,7 +157,7 @@ export default function Home() {
               handleClick={keyname === "DEL" ? handleDelete : handleClick}
               className={`${
                 keyname === "DEL"
-                  ? `bg-keybackground text-textwhite shadow-keyshadow ${
+                  ? `sm:text-3xl text-2xl bg-keybackground text-textwhite shadow-keyshadow ${
                       theme === "theme3"
                         ? "hover:bg-keylightshadow hover:shadow-keyshadow"
                         : "hover:brightness-125"
@@ -149,12 +175,12 @@ export default function Home() {
           <NumberButton
             number="RESET"
             handleClick={handleClear}
-            className="bg-keybackground text-textwhite shadow-keyshadow  hover:brightness-125"
+            className="bg-keybackground sm:text-3xl text-2xl text-textwhite shadow-keyshadow  hover:brightness-125"
           />
           <NumberButton
             number="="
             handleClick={handleCalculate}
-            className={`${
+            className={`sm:text-3xl text-2xl ${
               theme === "theme3" ? "text-text" : "text-textwhite"
             } bg-toggle  shadow-toggleshadow hover:brightness-125`}
           />
