@@ -26,7 +26,7 @@ const Header = ({ theme, switchTheme }: HeaderProps) => {
             <p>2</p>
             <p>3</p>
           </div>
-          <Toggle theme={theme} switchTheme={switchTheme} />
+          <Toggle switchTheme={switchTheme} />
         </div>
       </div>
     </div>

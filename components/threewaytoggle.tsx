@@ -1,17 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const Toggle = ({
-  theme,
-  switchTheme,
-}: {
-  theme: string;
-  switchTheme: (theme: string) => void;
-}) => {
+const Toggle = ({ switchTheme }: { switchTheme: (theme: string) => void }) => {
   const [checked, setChecked] = useState(0);
 
   useEffect(() => {
-    switch (theme) {
+    switch (localStorage.getItem("theme")) {
       case "theme1":
         setChecked(0);
         break;
@@ -21,10 +15,8 @@ const Toggle = ({
       case "theme3":
         setChecked(2);
         break;
-      default:
-        setChecked(0);
     }
-  }, [theme]);
+  }, []);
 
   useEffect(() => {
     switchTheme(checked === 0 ? "theme1" : checked === 1 ? "theme2" : "theme3");

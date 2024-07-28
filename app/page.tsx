@@ -3,11 +3,7 @@
 import Display from "@/components/display";
 import NumberButton from "@/components/numeric-buttton";
 import { useState, useEffect } from "react";
-import {
-  getThemePreferenceFromCookie,
-  changeTheme,
-  convertToNonLocaleString,
-} from "./utils";
+import { getTheme, changeTheme, convertToNonLocaleString } from "./utils";
 import Header from "@/components/header";
 
 export default function Home() {
@@ -16,24 +12,17 @@ export default function Home() {
   const [decimalSelected, setDecimalSelected] = useState(false);
   const [operandSelected, setOperandSelected] = useState(false);
   const [deleteAvailable, setDeleteAvailable] = useState(false);
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState<string>("");
 
   useEffect(() => {
-    if (!theme) return;
-    setTheme(theme);
-    changeTheme(theme);
-    document.querySelector("html")?.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    getThemePreferenceFromCookie().then((theme) => {
-      if (theme) {
-        setTheme(theme);
-      } else {
-        setTheme("theme1");
-      }
-    });
+    const savedTheme = getTheme();
+    console.log("Saved theme: ", savedTheme);
+    setTheme(savedTheme || "theme1");
   }, []);
+
+  useEffect(() => {
+    changeTheme(theme);
+  }, [theme]);
 
   const handleClick = (value?: string) => {
     if (value === "x") value = "*";
