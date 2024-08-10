@@ -36,8 +36,8 @@ const Toggle = ({ onSetTheme }: { onSetTheme: (newTheme: string) => void }) => {
   return (
     <label className="relative inline-block w-24 h-8 ">
       <input
-        type="text"
-        className={`${checkedStyle} absolute opacity-0 w-0 h-0 bg-toggle duration-75  cursor-pointer top-0 left-0 right-0 bottom-0 border rounded-[34px] bg-togglebackground`}
+        type="checkbox"
+        className={`${checkedStyle} absolute opacity-0 w-0 h-0  duration-75  cursor-pointer top-0 left-0 right-0 bottom-0 border rounded-[34px] bg-togglebackground`}
       />
       <span
         onClick={handleClick}
