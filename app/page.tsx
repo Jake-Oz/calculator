@@ -2,9 +2,10 @@
 
 import Display from "@/components/display";
 import NumberButton from "@/components/numeric-buttton";
-import { useState, useEffect } from "react";
-import { getTheme, changeTheme, convertToNonLocaleString } from "./utils";
+import { useState } from "react";
+import { changeTheme, convertToNonLocaleString } from "./utils";
 import Header from "@/components/header";
+import Toggle from "@/components/threewaytoggle";
 
 export default function Home() {
   const [input, setInput] = useState("0");
@@ -14,15 +15,10 @@ export default function Home() {
   const [deleteAvailable, setDeleteAvailable] = useState(false);
   const [theme, setTheme] = useState<string>("");
 
-  useEffect(() => {
-    const savedTheme = getTheme();
-    console.log("Saved theme: ", savedTheme);
-    setTheme(savedTheme || "theme1");
-  }, []);
-
-  useEffect(() => {
-    changeTheme(theme);
-  }, [theme]);
+  const handleThemeChange = (newTheme: string) => {
+    changeTheme(newTheme);
+    setTheme(newTheme);
+  };
 
   const handleClick = (value?: string) => {
     if (value === "x") value = "*";
@@ -60,6 +56,13 @@ export default function Home() {
           setExpression(expression + value);
         }
       } else if (value) {
+        if (value === ".") {
+          setInput("0.");
+          setDecimalSelected(true);
+          setExpression(expression + "0.");
+          setOperandSelected(false);
+          return;
+        }
         setInput(convertToNonLocaleString(value));
         setExpression(expression + value);
         setOperandSelected(false);
@@ -102,10 +105,6 @@ export default function Home() {
     }
   };
 
-  const switchTheme = (theme: string) => {
-    setTheme(theme);
-  };
-
   const keynames = [
     "7",
     "8",
@@ -126,7 +125,10 @@ export default function Home() {
   ];
   return (
     <main className="flex flex-col gap-4 max-w-[540px] mx-auto mt-5 p-5">
-      <Header theme={theme} switchTheme={switchTheme} />
+      <Header theme={theme}>
+        <Toggle onSetTheme={handleThemeChange} />
+      </Header>
+
       <Display
         displayValue={input}
         className={`bg-screenbackground ${

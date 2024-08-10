@@ -1,27 +1,31 @@
 "use client";
 import { useEffect, useState } from "react";
+import { getTheme } from "@/app/utils";
 
-const Toggle = ({ switchTheme }: { switchTheme: (theme: string) => void }) => {
-  const [checked, setChecked] = useState(0);
+const Toggle = ({ onSetTheme }: { onSetTheme: (newTheme: string) => void }) => {
+  const [checked, setChecked] = useState<number>(0);
 
   useEffect(() => {
-    switch (localStorage.getItem("theme")) {
-      case "theme1":
-        setChecked(0);
-        break;
-      case "theme2":
-        setChecked(1);
-        break;
-      case "theme3":
+    const savedTheme = getTheme();
+    if (savedTheme) {
+      onSetTheme(savedTheme);
+      setChecked(savedTheme === "theme1" ? 0 : savedTheme === "theme2" ? 1 : 2);
+    } else {
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      if (mql.matches) {
+        onSetTheme("theme3");
         setChecked(2);
-        break;
+      } else {
+        setChecked(1);
+        onSetTheme("theme2");
+      }
     }
   }, []);
 
-  useEffect(() => {
-    switchTheme(checked === 0 ? "theme1" : checked === 1 ? "theme2" : "theme3");
-  }),
-    [checked];
+  const handleClick = () => {
+    setChecked((checked + 1) % 3);
+    onSetTheme(checked === 0 ? "theme2" : checked === 1 ? "theme3" : "theme1");
+  };
 
   const checkedStyle =
     checked === 1
@@ -36,7 +40,7 @@ const Toggle = ({ switchTheme }: { switchTheme: (theme: string) => void }) => {
         className={`${checkedStyle} absolute opacity-0 w-0 h-0 bg-toggle duration-75  cursor-pointer top-0 left-0 right-0 bottom-0 border rounded-[34px] bg-togglebackground`}
       />
       <span
-        onClick={() => setChecked((checked + 1) % 3)}
+        onClick={handleClick}
         className={`${checkedStyle} absolute cursor-pointer top-0 left-0 right-0 bottom-0 border-none rounded-[34px] before:rounded-[50%] bg-togglebackground before:duration-75  before:absolute before:content-[''] before:h-5 before:w-5 before:left-1.5 before:bottom-1.5 before:bg-toggle`}
       ></span>
     </label>

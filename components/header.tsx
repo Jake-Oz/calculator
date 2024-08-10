@@ -1,12 +1,13 @@
 import React from "react";
-import Toggle from "./threewaytoggle";
+
+import { Dispatch, SetStateAction } from "react";
 
 type HeaderProps = {
   theme: string;
-  switchTheme: (theme: string) => void;
+  children: React.ReactNode;
 };
 
-const Header = ({ theme, switchTheme }: HeaderProps) => {
+const Header = ({ theme, children }: HeaderProps) => {
   return (
     <div
       className={`flex justify-between items-end ${
@@ -26,7 +27,7 @@ const Header = ({ theme, switchTheme }: HeaderProps) => {
             <p>2</p>
             <p>3</p>
           </div>
-          <Toggle switchTheme={switchTheme} />
+          {children}
         </div>
       </div>
     </div>

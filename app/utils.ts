@@ -5,7 +5,6 @@ export const changeTheme = (theme: string) => {
 
 export const getTheme = () => {
   const theme = localStorage.getItem("theme");
-  console.log("Retrieved: ", theme, " from localStorage");
   return theme;
 };
 
