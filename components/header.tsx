@@ -18,9 +18,9 @@ const Header = ({ theme, children }: HeaderProps) => {
           : "text-textyellow"
       } mb-4`}
     >
-      <h3 className="text-4xl">calc</h3>
+      <h1 className="text-4xl">calc</h1>
       <div className="flex justify-center items-end gap-[15%] ">
-        <h3 className="tracking-widest">THEME</h3>
+        <h2 className="tracking-widest">THEME</h2>
         <div className="flex flex-col justify-between">
           <div className="flex justify-between items-center px-4 text-lg">
             <p>1</p>
