@@ -148,7 +148,7 @@ export default function Home() {
               handleClick={keyname === "DEL" ? handleDelete : handleClick}
               className={`${
                 keyname === "DEL"
-                  ? `sm:text-3xl text-2xl bg-keybackground text-textwhite shadow-keyshadow ${
+                  ? `sm:text-3xl text-xl bg-keybackground text-textwhite shadow-keyshadow ${
                       theme === "theme3"
                         ? "hover:bg-keylightshadow hover:shadow-keyshadow"
                         : "hover:brightness-125"
@@ -166,7 +166,7 @@ export default function Home() {
           <NumberButton
             number="RESET"
             handleClick={handleClear}
-            className="bg-keybackground sm:text-3xl text-2xl text-textwhite shadow-keyshadow  hover:brightness-125"
+            className="bg-keybackground sm:text-3xl text-xl text-textwhite shadow-keyshadow  hover:brightness-125"
           />
           <NumberButton
             number="="
